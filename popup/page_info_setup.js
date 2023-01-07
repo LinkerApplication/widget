@@ -1,0 +1,97 @@
+const loadingContent = document.getElementById("loading-content");
+const successContent = document.getElementById("success-content");
+const doesNotexistContent = document.getElementById("does-not-exist-content");
+const usContent = document.getElementById("us-content");
+const unexpectedErrorContent = document.getElementById("unexpected-error-content");
+
+const LINKER_URL_BASE = "https://linkerhub.link";
+
+const onUs = () => {
+    loadingContent.hidden = true;
+    usContent.hidden = false;
+}
+
+const onSuccessFetch = (data) => {
+    // Get the elements from success section
+    const linkerhubLinkElement = document.getElementById("linker-link");
+    const titleElement = document.getElementById("linker-title");
+    const descriptionElement = document.getElementById("linker-description");
+    const ratingElement = document.getElementById("linker-rating");
+    const categoryElement = document.getElementById("linker-category");
+    const tagsElement = document.getElementById("linker-tags");
+    const readTimeElement = document.getElementById("linker-readtime");
+    const dateAddedElement = document.getElementById("linker-date-added");
+
+    // Populate the success content first
+    const { rating, title, description, tags, id, category, read_time, created_at } = data;
+
+    const linkerhubLink = `${LINKER_URL_BASE}/links/${id}`;
+    linkerhubLinkElement.href = linkerhubLink;
+
+    titleElement.innerText = title;
+    titleElement.href = linkerhubLink;
+
+    descriptionElement.innerText = description;
+
+    ratingElement.innerText = rating;
+
+    categoryElement.innerText = category.name;
+    categoryElement.href = `${LINKER_URL_BASE}/links/?category=${category.slug}`;
+
+    const tagElements = tags.map((tag) => `<div class="tag">${tag.name}</div>`);
+    tagsElement.innerHTML = tagElements.join("\n");
+
+    readTimeElement.innerHTML = read_time;
+
+    dateAddedElement.innerText = created_at;
+
+    // Show the correct section and hide others
+    loadingContent.hidden = true;
+    successContent.hidden = false;
+}
+
+const onDoesNotExist = () => {
+    loadingContent.hidden = true;
+    doesNotexistContent.hidden = false;
+}
+
+const onUnexpectedError = () => {
+    loadingContent.hidden = true;
+    unexpectedErrorContent.hidden = false;
+}
+
+const makeRequest = (tabUrl) => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    // Time out, if request exceeds 5 seconds
+    setTimeout(() => controller.abort(), 5000);
+
+    const location = new URL(tabUrl);
+
+    if (location.host.replace("www.", "") === new URL(LINKER_URL_BASE).host) {
+        onUs();
+        return
+    }
+
+    const url = `${LINKER_URL_BASE}/api/v1/search-by-url/?url=${location.host + location.pathname}`;
+
+    fetch(url, { signal }).then(async (response) => {
+        if (!response.ok) {
+            if (response.status === 404) {
+                onDoesNotExist();
+            } else {
+                onUnexpectedError()
+            }
+        } else {
+            response.json().then(onSuccessFetch)
+        }
+    }).catch(onUnexpectedError);
+}
+
+const runScript = async () => {
+    browser.tabs.query({ currentWindow: true, active: true })
+        .then((tabs) => makeRequest(tabs[0].url));
+}
+
+runScript();

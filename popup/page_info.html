@@ -1,17 +1,61 @@
 <!DOCTYPE html>
 <html>
 
+
 <head>
-    <meta charset="utf-8" />
-    <!-- <link rel="stylesheet" href="choose_beast.css" /> -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="page_info.css" />
 </head>
 
 <body>
-    <div id="popup-content">
-        <p>Info about this page</p>
-        <p id="rating"></p>
+    <nav>
+        <a href="https://linkerhub.link"><img class="linker-logo" src="../images/logo-light.svg" alt="logo"></a>
+        <a class="linker-home" href="https://linkerhub.link">Go to Linkerhub</a>
+    </nav>
+
+    <div class="popup-content">
+        <section id="loading-content">
+            <p class="popup-title">Page info is fetching...</p>
+        </section>
+    
+        <section id="success-content" hidden>
+            <p class="popup-title">Link already exists on <b>Linkerhub</b></p>
+            <div class="page-info">
+                <a id="linker-title"></a>
+                <p id="linker-description"></p>
+                <div class="rating-category">
+                    <div class="rating">
+                        <img src="../images/star.svg" alt="star">
+                        <span id="linker-rating"></span>
+                    </div>
+                    <p class="category">Category: <a id="linker-category"></a></p>
+                </div>
+                <div class="footer">
+                    <p class="read-time"><span id="linker-readtime"></span> min read</p>
+                    <div id="linker-tags"></div>
+                </div>
+                <p class="date-added">Added to Linkerhub: <span id="linker-date-added"></span></p>
+            </div>
+            <a class="main-button" id="linker-link">Read more on Linkerhub</a>
+        </section>
+    
+        <section id="does-not-exist-content" hidden>
+            <p class="popup-title">Link does not exist on <b>Linkerhub</b> yet.</p>
+            <p class="regular-text">Care to add it?</p>
+            <a class="main-button" href="https://linkerhub.link/add">Add link to Linkerhub</a>
+        </section>
+    
+        <section id="us-content" hidden>
+            <p class="popup-title">It's us! <b>Hi!</b></p>
+        </section>
+    
+        <section id="unexpected-error-content" hidden>
+            <p class="popup-title">Unexpected error. Try refreshing a page in a couple of seconds.</p>
+        </section>
     </div>
-    <!-- <script src="fetch_page_info.js"></script> -->
+
+    <script src="page_info_setup.js" defer></script>
+
 </body>
 
 </html>
