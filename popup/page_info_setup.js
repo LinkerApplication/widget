@@ -38,10 +38,14 @@ const onSuccessFetch = (data) => {
     categoryElement.innerText = category.name;
     categoryElement.href = `${LINKER_URL_BASE}/links/?category=${category.slug}`;
 
-    const tagElements = tags.map((tag) => `<div class="tag">${tag.name}</div>`);
-    tagsElement.innerHTML = tagElements.join("\n");
+    const tagElements = tags.forEach((tag) => {
+        const tagElement = document.createElement("div");
+        tagElement.className = "tag";
+        tagElement.innerText = tag.name;
+        tagsElement.appendChild(tagElement);
+    });
 
-    readTimeElement.innerHTML = read_time;
+    readTimeElement.innerText = read_time;
 
     dateAddedElement.innerText = created_at;
 
