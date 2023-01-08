@@ -50,7 +50,19 @@ const onSuccessFetch = (data) => {
     successContent.hidden = false;
 }
 
-const onDoesNotExist = () => {
+const onDoesNotExist = (location) => {
+    const addNewLink = document.getElementById("linker-add-new");
+
+    addNewLink.addEventListener("click", () => {
+        browser.windows.create({
+            url: `${LINKER_URL_BASE}/add?link_url=${location}`,
+            width: 600,
+            height: 1000,
+            top: 0,
+            type: "popup",
+        })
+    })
+
     loadingContent.hidden = true;
     doesNotexistContent.hidden = false;
 }
@@ -79,7 +91,7 @@ const makeRequest = (tabUrl) => {
     fetch(url, { signal }).then(async (response) => {
         if (!response.ok) {
             if (response.status === 404) {
-                onDoesNotExist();
+                onDoesNotExist(location);
             } else {
                 onUnexpectedError()
             }
