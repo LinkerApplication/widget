@@ -59,7 +59,7 @@ const onDoesNotExist = (location) => {
 
     addNewLink.addEventListener("click", () => {
         browser.windows.create({
-            url: `${LINKER_URL_BASE}/add?link_url=${location}`,
+            url: `${LINKER_URL_BASE}/add?link_url=${encodeURIComponent(location)}`,
             width: 600,
             height: 1000,
             top: 0,
@@ -96,7 +96,7 @@ const makeRequest = (tabUrl) => {
     fetch(url, { signal }).then(async (response) => {
         if (!response.ok) {
             if (response.status === 404) {
-                onDoesNotExist(urlSearchParam);
+                onDoesNotExist(location);
             } else {
                 onUnexpectedError()
             }
