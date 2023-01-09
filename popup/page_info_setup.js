@@ -90,7 +90,8 @@ const makeRequest = (tabUrl) => {
         return
     }
 
-    const url = `${LINKER_URL_BASE}/api/v1/search-by-url/?url=${location.host + location.pathname}`;
+    const urlSearchParam = encodeURIComponent(location.host + location.pathname);
+    const url = `${LINKER_URL_BASE}/api/v1/search-by-url/?url=${urlSearchParam}`;
 
     fetch(url, { signal }).then(async (response) => {
         if (!response.ok) {
