@@ -90,13 +90,13 @@ const makeRequest = (tabUrl) => {
         return
     }
 
-    const urlSearchParam = encodeURIComponent(location.host + location.pathname);
+    const urlSearchParam = encodeURIComponent(location.host + location.pathname + location.search);
     const url = `${LINKER_URL_BASE}/api/v1/search-by-url/?url=${urlSearchParam}`;
 
     fetch(url, { signal }).then(async (response) => {
         if (!response.ok) {
             if (response.status === 404) {
-                onDoesNotExist(location);
+                onDoesNotExist(urlSearchParam);
             } else {
                 onUnexpectedError()
             }
