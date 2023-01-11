@@ -6,6 +6,13 @@ const unexpectedErrorContent = document.getElementById("unexpected-error-content
 
 const LINKER_URL_BASE = "https://linkerhub.link";
 
+let currentBrowser;
+if (typeof browser === "undefined") {
+    currentBrowser = chrome;
+} else {
+    currentBrowser = browser;
+}
+
 const onUs = () => {
     loadingContent.hidden = true;
     usContent.hidden = false;
@@ -58,7 +65,7 @@ const onDoesNotExist = (location) => {
     const addNewLink = document.getElementById("linker-add-new");
 
     addNewLink.addEventListener("click", () => {
-        browser.windows.create({
+        currentBrowser.windows.create({
             url: `${LINKER_URL_BASE}/add?link_url=${encodeURIComponent(location)}`,
             width: 600,
             height: 1000,
@@ -107,7 +114,7 @@ const makeRequest = (tabUrl) => {
 }
 
 const runScript = async () => {
-    browser.tabs.query({ currentWindow: true, active: true })
+    currentBrowser.tabs.query({ currentWindow: true, active: true })
         .then((tabs) => makeRequest(tabs[0].url));
 }
 
