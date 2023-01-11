@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "Web page rating provider",
+    "version": "1.0.3",
+    "description": "Fetches info about the current page from Linker API. If the link is present in Linker Database, exposes its rating and base info.",
+    "homepage_url": "https://github.com/LinkerApplication/widget",
+    "icons": {
+        "48": "icons/48.png",
+        "96": "icons/96.png"
+    },
+    "permissions": [
+        "activeTab",
+        "tabs"
+    ],
+    "action": {
+        "default_icon": "icons/32.png",
+        "default_title": "Web page rating",
+        "default_popup": "popup/page_info.html",
+        "browser_style": true
+    },
+    "web_accessible_resources": [{
+        "resources": ["images/logo-light.svg"],
+        "matches": ["*://*/*"]
+    }]
+}
