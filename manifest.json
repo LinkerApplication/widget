@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Web page rating provider",
     "version": "1.0.3",
-    "description": "Fetches info about the current page from Linker API. If the link is present in Linker Database, exposes its rating and base info, such as description.",
+    "description": "Fetches info about the current page from Linker API. If the link is present in Linker Database, exposes its rating and base info.",
     "homepage_url": "https://github.com/LinkerApplication/widget",
     "icons": {
         "48": "icons/48.png",
