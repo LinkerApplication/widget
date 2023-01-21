@@ -18,13 +18,15 @@ if [ "$manifest_version" != "2" ] && [ "$manifest_version" != "3" ]; then
     exit 1
 fi
 
+echo "Updating manifest v$manifest_version with the widget version $widget_version"
+
 cd widget
 
 # Copies content of the manifest of selected version to a new mainfest.json file
 cp "manifest_v$manifest_version.json" manifest.json
 
 # Replaces the version in the manifest file
-sed -i "s/REPLACE_VERSION/$widget_version/g" manifest.json
+sed -i "s|REPLACE_VERSION|$widget_version|g" manifest.json
 
 # Packs the content of the repository into zip archive, excludes all manifest except the new one
 zip -r -FS "../lw-v$manifest_version.zip" * -x "manifest_v*.json"

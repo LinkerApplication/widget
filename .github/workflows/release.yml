@@ -19,6 +19,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
+          generate_release_notes: true
           files: |
             lw-v2.zip
             lw-v3.zip
