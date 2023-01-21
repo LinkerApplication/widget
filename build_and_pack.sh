@@ -18,7 +18,7 @@ fi
 cp "manifest_v$manifest_version.json" manifest.json
 
 # 2) Packs the content of the repository into zip archive, excludes all manifest except the new one
-zip -r -FS ../linkerhub-widget.zip * -x '*.git*' -x 'manifest_v2.json' -x 'manifest_v3.json' -x 'manifest_v3.json' -x 'build_and_pack.sh'
+zip -r -FS "../linkerhub-widget_v$manifest_version.zip" * -x "*.git*" -x "manifest_v2.json" -x "manifest_v3.json" -x "manifest_v3.json" -x "build_and_pack.sh"
 
 # 3) Delete the new manifest file
 rm manifest.json
