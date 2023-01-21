@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Build artifacts
-        run: ./build_and_pack.sh 2 ${{ github.ref }} && ./build_and_pack.sh 3 ${{ github.ref }}
+        run: ./build_and_pack.sh 2 ${{ github.ref_name }} && ./build_and_pack.sh 3 ${{ github.ref_name }}
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
