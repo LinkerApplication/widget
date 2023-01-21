@@ -3,9 +3,14 @@
 # Version setup
 
 manifest_version=${1}
+widget_version=${2}
 
-if [ -z "$manifest_version"]; then
+if [ -z "$manifest_version" ]; then
     read -p "Specify manifest version: v" manifest_version
+fi
+
+if [ -z "$widget_version" ]; then
+    read -p "Specify widget version: " widget_version
 fi
 
 if [ "$manifest_version" != "2" ] && [ "$manifest_version" != "3" ]; then
@@ -13,12 +18,16 @@ if [ "$manifest_version" != "2" ] && [ "$manifest_version" != "3" ]; then
     exit 1
 fi
 
+cd widget
 
-# 1) Copies content of the manifest of selected version to a new mainfest.json file
+# Copies content of the manifest of selected version to a new mainfest.json file
 cp "manifest_v$manifest_version.json" manifest.json
 
-# 2) Packs the content of the repository into zip archive, excludes all manifest except the new one
-zip -r -FS "../linkerhub-widget_v$manifest_version.zip" * -x "*.git*" -x "manifest_v2.json" -x "manifest_v3.json" -x "manifest_v3.json" -x "build_and_pack.sh"
+# Replaces the version in the manifest file
+sed -i "s/REPLACE_VERSION/$widget_version/g" manifest.json
 
-# 3) Delete the new manifest file
+# Packs the content of the repository into zip archive, excludes all manifest except the new one
+zip -r -FS "../lw-v$manifest_version.zip" * -x "manifest_v*.json"
+
+# Delete the new manifest file
 rm manifest.json
